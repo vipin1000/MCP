@@ -141,6 +141,13 @@ Author: Vipin Ruhal
 Description: Combines SQLite demo tools with advanced file operations,
 directory management, code analysis, data processing, and database management.
 """
+#!/usr/bin/env python3
+"""
+Unified Advanced MCP Server - main.py
+Author: Vipin Ruhal
+Description: Combines SQLite demo tools with advanced file operations,
+directory management, code analysis, data processing, and database management.
+"""
 
 from mcp.server.fastmcp import FastMCP
 import os
@@ -207,7 +214,6 @@ def read_data(query: str = "SELECT * FROM people") -> list:
 
 # =============================================
 # ADVANCED FILE OPERATIONS
-# (list_files, delete_file, copy_file, move_file, get_file_info)
 # =============================================
 
 @mcp.tool()
@@ -236,29 +242,367 @@ def list_files(directory: str = ".") -> List[Dict[str, Any]]:
     except Exception as e:
         return [{"error": f"Error listing files: {str(e)}"}]
 
-# (Keep all other advanced tools: delete_file, copy_file, move_file, get_file_info,
-# create_directory, remove_directory, list_directory_tree, analyze_python_code,
-# count_lines_of_code, find_in_files, read/write CSV/JSON, full SQLite CRUD, etc.)
-# I’ll skip repeating them here since they remain unchanged from your main2.py.
+@mcp.tool()
+def delete_file(file_path: str) -> str:
+    """Safely delete a file with confirmation."""
+    abs_path = file_path if os.path.isabs(file_path) else os.path.join(_base_dir, file_path)
+    if not os.path.exists(abs_path):
+        return f"File not found: {abs_path}"
+    if os.path.isdir(abs_path):
+        return f"Cannot delete directory with delete_file. Use remove_directory instead."
+    try:
+        with _file_lock:
+            os.remove(abs_path)
+        return f"File deleted successfully: {abs_path}"
+    except Exception as e:
+        return f"Error deleting file: {str(e)}"
+
+@mcp.tool()
+def copy_file(source: str, destination: str) -> str:
+    """Copy file from source to destination."""
+    source_abs = source if os.path.isabs(source) else os.path.join(_base_dir, source)
+    dest_abs = destination if os.path.isabs(destination) else os.path.join(_base_dir, destination)
+    if not os.path.exists(source_abs):
+        return f"Source file not found: {source_abs}"
+    try:
+        with _file_lock:
+            os.makedirs(os.path.dirname(dest_abs), exist_ok=True)
+            shutil.copy2(source_abs, dest_abs)
+        return f"File copied successfully: {source_abs} -> {dest_abs}"
+    except Exception as e:
+        return f"Error copying file: {str(e)}"
+
+@mcp.tool()
+def move_file(source: str, destination: str) -> str:
+    """Move/rename file from source to destination."""
+    source_abs = source if os.path.isabs(source) else os.path.join(_base_dir, source)
+    dest_abs = destination if os.path.isabs(destination) else os.path.join(_base_dir, destination)
+    if not os.path.exists(source_abs):
+        return f"Source file not found: {source_abs}"
+    try:
+        with _file_lock:
+            os.makedirs(os.path.dirname(dest_abs), exist_ok=True)
+            shutil.move(source_abs, dest_abs)
+        return f"File moved successfully: {source_abs} -> {dest_abs}"
+    except Exception as e:
+        return f"Error moving file: {str(e)}"
+
+@mcp.tool()
+def get_file_info(file_path: str) -> Dict[str, Any]:
+    """Get detailed file information."""
+    abs_path = file_path if os.path.isabs(file_path) else os.path.join(_base_dir, file_path)
+    if not os.path.exists(abs_path):
+        return {"error": f"File not found: {abs_path}"}
+    try:
+        stat_info = os.stat(abs_path)
+        return {
+            "name": os.path.basename(abs_path),
+            "path": abs_path,
+            "size": stat_info.st_size,
+            "is_file": os.path.isfile(abs_path),
+            "is_directory": os.path.isdir(abs_path),
+            "modified": datetime.fromtimestamp(stat_info.st_mtime).isoformat(),
+            "created": datetime.fromtimestamp(stat_info.st_ctime).isoformat(),
+            "accessed": datetime.fromtimestamp(stat_info.st_atime).isoformat(),
+            "permissions": oct(stat_info.st_mode)[-3:],
+            "extension": os.path.splitext(abs_path)[1] if os.path.isfile(abs_path) else None
+        }
+    except Exception as e:
+        return {"error": f"Error getting file info: {str(e)}"}
 
 # =============================================
-# UTILITY FUNCTIONS
+# DIRECTORY MANAGEMENT
 # =============================================
 
-def _format_bytes(bytes_value: int) -> str:
-    for unit in ['B', 'KB', 'MB', 'GB', 'TB']:
-        if bytes_value < 1024.0:
-            return f"{bytes_value:.1f} {unit}"
-        bytes_value /= 1024.0
-    return f"{bytes_value:.1f} PB"
+@mcp.tool()
+def create_directory(dir_path: str) -> str:
+    """Create a new directory (including parent directories)."""
+    abs_path = dir_path if os.path.isabs(dir_path) else os.path.join(_base_dir, dir_path)
+    try:
+        os.makedirs(abs_path, exist_ok=True)
+        return f"Directory created successfully: {abs_path}"
+    except Exception as e:
+        return f"Error creating directory: {str(e)}"
 
-def _analyze_json_structure(data) -> Dict[str, Any]:
-    if isinstance(data, dict):
-        return {"type": "object", "keys_count": len(data), "keys": list(data.keys())[:10]}
-    elif isinstance(data, list):
-        return {"type": "array", "length": len(data), "item_types": list(set(type(item).__name__ for item in data[:100]))}
-    else:
-        return {"type": type(data).__name__, "value": str(data)[:100]}
+@mcp.tool()
+def remove_directory(dir_path: str, force: bool = False) -> str:
+    """Remove a directory. Use force=True to remove non-empty directories."""
+    abs_path = dir_path if os.path.isabs(dir_path) else os.path.join(_base_dir, dir_path)
+    if not os.path.exists(abs_path):
+        return f"Directory not found: {abs_path}"
+    if not os.path.isdir(abs_path):
+        return f"Path is not a directory: {abs_path}"
+    try:
+        if force:
+            shutil.rmtree(abs_path)
+        else:
+            os.rmdir(abs_path)
+        return f"Directory removed successfully: {abs_path}"
+    except Exception as e:
+        return f"Error removing directory: {str(e)}"
+
+@mcp.tool()
+def list_directory_tree(path: str = ".", max_depth: int = 3) -> str:
+    """Show directory structure as a tree."""
+    abs_path = path if os.path.isabs(path) else os.path.join(_base_dir, path)
+    if not os.path.exists(abs_path):
+        return f"Path not found: {abs_path}"
+    def _build_tree(directory, prefix="", depth=0):
+        if depth > max_depth:
+            return ""
+        tree_str = ""
+        try:
+            items = sorted(os.listdir(directory))
+            for i, item in enumerate(items):
+                item_path = os.path.join(directory, item)
+                is_last = i == len(items) - 1
+                current_prefix = "└── " if is_last else "├── "
+                tree_str += f"{prefix}{current_prefix}{item}\n"
+                if os.path.isdir(item_path) and depth < max_depth:
+                    extension = "    " if is_last else "│   "
+                    tree_str += _build_tree(item_path, prefix + extension, depth + 1)
+        except PermissionError:
+            tree_str += f"{prefix}[Permission Denied]\n"
+        return tree_str
+    tree = f"{os.path.basename(abs_path) or abs_path}\n"
+    tree += _build_tree(abs_path)
+    return tree
+
+# =============================================
+# CODE ANALYSIS & PROCESSING
+# =============================================
+
+@mcp.tool()
+def analyze_python_code(file_path: str) -> Dict[str, Any]:
+    """Analyze Python code for functions, classes, imports, and complexity."""
+    abs_path = file_path if os.path.isabs(file_path) else os.path.join(_base_dir, file_path)
+    if not os.path.exists(abs_path):
+        return {"error": f"File not found: {abs_path}"}
+    try:
+        with open(abs_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        tree = ast.parse(content)
+        analysis = {
+            "file_path": abs_path,
+            "total_lines": len(content.splitlines()),
+            "functions": [],
+            "classes": [],
+            "imports": [],
+            "global_variables": [],
+            "complexity_score": 0
+        }
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef):
+                analysis["functions"].append({
+                    "name": node.name,
+                    "line_number": node.lineno,
+                    "args_count": len(node.args.args),
+                    "has_docstring": ast.get_docstring(node) is not None
+                })
+            elif isinstance(node, ast.ClassDef):
+                methods = [n.name for n in node.body if isinstance(n, ast.FunctionDef)]
+                analysis["classes"].append({
+                    "name": node.name,
+                    "line_number": node.lineno,
+                    "methods": methods,
+                    "method_count": len(methods),
+                    "has_docstring": ast.get_docstring(node) is not None
+                })
+            elif isinstance(node, ast.Import):
+                for alias in node.names:
+                    analysis["imports"].append({
+                        "type": "import",
+                        "name": alias.name,
+                        "alias": alias.asname,
+                        "line_number": node.lineno
+                    })
+            elif isinstance(node, ast.ImportFrom):
+                for alias in node.names:
+                    analysis["imports"].append({
+                        "type": "from_import",
+                        "module": node.module,
+                        "name": alias.name,
+                        "alias": alias.asname,
+                        "line_number": node.lineno
+                    })
+            elif isinstance(node, ast.Assign) and isinstance(node.targets[0], ast.Name):
+                analysis["global_variables"].append({
+                    "name": node.targets[0].id,
+                    "line_number": node.lineno
+                })
+        analysis["complexity_score"] = len(analysis["functions"]) + len(analysis["classes"]) * 2
+        analysis["summary"] = {
+            "functions_count": len(analysis["functions"]),
+            "classes_count": len(analysis["classes"]),
+            "imports_count": len(analysis["imports"]),
+            "estimated_complexity": "Low" if analysis["complexity_score"] < 10 else "Medium" if analysis["complexity_score"] < 25 else "High"
+        }
+        return analysis
+    except Exception as e:
+        return {"error": f"Error analyzing code: {str(e)}"}
+
+@mcp.tool()
+def count_lines_of_code(file_path: str) -> Dict[str, int]:
+    """Count total lines, code lines, comment lines, and blank lines."""
+    abs_path = file_path if os.path.isabs(file_path) else os.path.join(_base_dir, file_path)
+    if not os.path.exists(abs_path):
+        return {"error": f"File not found: {abs_path}"}
+    try:
+        with open(abs_path, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+        total_lines = len(lines)
+        blank_lines = sum(1 for line in lines if not line.strip())
+        comment_lines = sum(1 for line in lines if line.strip().startswith('#'))
+        code_lines = total_lines - blank_lines - comment_lines
+        return {
+            "file_path": abs_path,
+            "total_lines": total_lines,
+            "code_lines": code_lines,
+            "comment_lines": comment_lines,
+            "blank_lines": blank_lines,
+            "code_percentage": round((code_lines / total_lines) * 100, 2) if total_lines > 0 else 0
+        }
+    except Exception as e:
+        return {"error": f"Error counting lines: {str(e)}"}
+
+@mcp.tool()
+def find_in_files(search_term: str, directory: str = ".", file_extensions: List[str] = None) -> List[Dict[str, Any]]:
+    """Search for text across multiple files."""
+    abs_path = directory if os.path.isabs(directory) else os.path.join(_base_dir, directory)
+    if not os.path.exists(abs_path):
+        return [{"error": f"Directory not found: {abs_path}"}]
+    if file_extensions is None:
+        file_extensions = ['.py', '.txt', '.md', '.json', '.csv', '.js', '.html', '.css']
+    results = []
+    try:
+        for root, _, files in os.walk(abs_path):
+            for file in files:
+                if any(file.endswith(ext) for ext in file_extensions):
+                    file_path = os.path.join(root, file)
+                    try:
+                        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                            lines = f.readlines()
+                        matches = []
+                        for line_num, line in enumerate(lines, 1):
+                            if search_term.lower() in line.lower():
+                                matches.append({
+                                    "line_number": line_num,
+                                    "line_content": line.strip(),
+                                    "match_position": line.lower().find(search_term.lower())
+                                })
+                        if matches:
+                            results.append({
+                                "file_path": file_path,
+                                "matches_count": len(matches),
+                                "matches": matches
+                            })
+                    except Exception:
+                        continue
+        return results
+    except Exception as e:
+        return [{"error": f"Error searching files: {str(e)}"}]
+
+# =============================================
+# DATA PROCESSING
+# =============================================
+
+@mcp.tool()
+def read_csv_file(file_path: str, delimiter: str = ",") -> Dict[str, Any]:
+    """Read and parse CSV files with detailed information."""
+    abs_path = file_path if os.path.isabs(file_path) else os.path.join(_base_dir, file_path)
+    if not os.path.exists(abs_path):
+        return {"error": f"File not found: {abs_path}"}
+    try:
+        with open(abs_path, 'r', encoding='utf-8') as f:
+            if delimiter == ",":
+                sample = f.read(1024)
+                f.seek(0)
+                try:
+                    delimiter = csv.Sniffer().sniff(sample).delimiter
+                except:
+                    delimiter = ","
+            reader = csv.DictReader(f, delimiter=delimiter)
+            rows = list(reader)
+        if not rows:
+            return {"error": "CSV file is empty or has no data rows"}
+        headers = list(rows[0].keys())
+        column_info = {}
+        for header in headers:
+            values = [row[header] for row in rows if row[header].strip()]
+            column_info[header] = {
+                "non_empty_count": len(values),
+                "unique_count": len(set(values)),
+                "sample_values": values[:5]
+            }
+        return {
+            "file_path": abs_path,
+            "row_count": len(rows),
+            "column_count": len(headers),
+            "headers": headers,
+            "column_info": column_info,
+            "data": rows[:100],
+            "preview_note": f"Showing first 100 rows of {len(rows)} total rows" if len(rows) > 100 else "All rows shown"
+        }
+    except Exception as e:
+        return {"error": f"Error reading CSV: {str(e)}"}
+
+@mcp.tool()
+def write_csv_file(file_path: str, data: List[Dict[str, Any]], delimiter: str = ",") -> str:
+    """Write data to CSV file."""
+    abs_path = file_path if os.path.isabs(file_path) else os.path.join(_base_dir, file_path)
+    if not data:
+        return "Error: No data provided to write"
+    try:
+        os.makedirs(os.path.dirname(abs_path), exist_ok=True)
+        with _file_lock:
+            with open(abs_path, 'w', newline='', encoding='utf-8') as f:
+                if isinstance(data[0], dict):
+                    writer = csv.DictWriter(f, fieldnames=data[0].keys(), delimiter=delimiter)
+                    writer.writeheader()
+                    writer.writerows(data)
+                else:
+                    writer = csv.writer(f, delimiter=delimiter)
+                    writer.writerows(data)
+        return f"CSV file written successfully: {abs_path} ({len(data)} rows)"
+    except Exception as e:
+        return f"Error writing CSV: {str(e)}"
+
+@mcp.tool()
+def read_json_file(file_path: str) -> Dict[str, Any]:
+    """Read and parse JSON files."""
+    abs_path = file_path if os.path.isabs(file_path) else os.path.join(_base_dir, file_path)
+    if not os.path.exists(abs_path):
+        return {"error": f"File not found: {abs_path}"}
+    try:
+        with open(abs_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        return {
+            "file_path": abs_path,
+            "data_type": type(data).__name__,  # e.g., 'dict' or 'list'
+            "content": data
+        }
+    except json.JSONDecodeError as e:
+        return {"error": f"Invalid JSON format: {str(e)}"}
+    except Exception as e:
+        return {"error": str(e)}
+
+@mcp.tool()
+def write_json_file(file_path: str, content: Any, indent: int = 4) -> Dict[str, Any]:
+    """Write data to a JSON file."""
+    abs_path = file_path if os.path.isabs(file_path) else os.path.join(_base_dir, file_path)
+    try:
+        with open(abs_path, 'w', encoding='utf-8') as f:
+            json.dump(content, f, ensure_ascii=False, indent=indent)
+        return {
+            "file_path": abs_path,
+            "status": "success",
+            "data_type": type(content).__name__
+        }
+    except TypeError as e:
+        return {"error": f"Content not serializable to JSON: {str(e)}"}
+    except Exception as e:
+        return {"error": str(e)}
+
 
 # =============================================
 # MAIN ENTRYPOINT
