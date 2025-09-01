@@ -82,7 +82,7 @@ import nest_asyncio
 
 nest_asyncio.apply()
 
-import ollama
+from llama_index.llms.ollama import Ollama
 from llama_index.core import Settings
 from llama_index.tools.mcp import BasicMCPClient, McpToolSpec
 from llama_index.core.agent.workflow import FunctionAgent, ToolCall, ToolCallResult
@@ -90,7 +90,7 @@ from llama_index.core.workflow import Context
 
 
 # Initialize LLM - optimized for 3B model
-llm = ollama(
+llm = Ollama(
     model="llama3.2:3b", 
     temperature=0.0,  # More deterministic for small models
     top_p=0.9,        # Reduce randomness
