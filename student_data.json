@@ -1,0 +1,802 @@
+[
+  {
+    "name": "James Smith",
+    "roll_no": 1001,
+    "age": 20,
+    "gender": "Male",
+    "address": "123 Main St, New York, NY",
+    "contact_info": "555-123-4567"
+  },
+  {
+    "name": "Mary Johnson",
+    "roll_no": 1002,
+    "age": 19,
+    "gender": "Female",
+    "address": "456 Oak Ave, Los Angeles, CA",
+    "contact_info": "555-234-5678"
+  },
+  {
+    "name": "John Williams",
+    "roll_no": 1003,
+    "age": 21,
+    "gender": "Male",
+    "address": "789 Pine St, Chicago, IL",
+    "contact_info": "555-345-6789"
+  },
+  {
+    "name": "Patricia Brown",
+    "roll_no": 1004,
+    "age": 22,
+    "gender": "Female",
+    "address": "101 Maple Ave, Houston, TX",
+    "contact_info": "555-456-7890"
+  },
+  {
+    "name": "Robert Jones",
+    "roll_no": 1005,
+    "age": 18,
+    "gender": "Male",
+    "address": "202 Cedar St, Phoenix, AZ",
+    "contact_info": "555-567-8901"
+  },
+  {
+    "name": "Jennifer Garcia",
+    "roll_no": 1006,
+    "age": 23,
+    "gender": "Female",
+    "address": "303 Elm St, Philadelphia, PA",
+    "contact_info": "555-678-9012"
+  },
+  {
+    "name": "Michael Miller",
+    "roll_no": 1007,
+    "age": 20,
+    "gender": "Male",
+    "address": "404 Washington Ave, San Antonio, TX",
+    "contact_info": "555-789-0123"
+  },
+  {
+    "name": "Linda Davis",
+    "roll_no": 1008,
+    "age": 19,
+    "gender": "Female",
+    "address": "505 Park Ave, San Diego, CA",
+    "contact_info": "555-890-1234"
+  },
+  {
+    "name": "William Rodriguez",
+    "roll_no": 1009,
+    "age": 24,
+    "gender": "Male",
+    "address": "606 Lincoln St, Dallas, TX",
+    "contact_info": "555-901-2345"
+  },
+  {
+    "name": "Elizabeth Martinez",
+    "roll_no": 1010,
+    "age": 21,
+    "gender": "Female",
+    "address": "707 Jefferson Ave, San Jose, CA",
+    "contact_info": "555-012-3456"
+  },
+  {
+    "name": "David Hernandez",
+    "roll_no": 1011,
+    "age": 22,
+    "gender": "Male",
+    "address": "808 Madison St, Austin, TX",
+    "contact_info": "555-123-4568"
+  },
+  {
+    "name": "Barbara Lopez",
+    "roll_no": 1012,
+    "age": 20,
+    "gender": "Female",
+    "address": "909 Monroe Ave, Jacksonville, FL",
+    "contact_info": "555-234-5679"
+  },
+  {
+    "name": "Richard Gonzalez",
+    "roll_no": 1013,
+    "age": 19,
+    "gender": "Male",
+    "address": "110 Adams St, Fort Worth, TX",
+    "contact_info": "555-345-6780"
+  },
+  {
+    "name": "Susan Wilson",
+    "roll_no": 1014,
+    "age": 23,
+    "gender": "Female",
+    "address": "211 Jackson Ave, Columbus, OH",
+    "contact_info": "555-456-7891"
+  },
+  {
+    "name": "Joseph Anderson",
+    "roll_no": 1015,
+    "age": 18,
+    "gender": "Male",
+    "address": "312 Franklin St, Charlotte, NC",
+    "contact_info": "555-567-8902"
+  },
+  {
+    "name": "Jessica Thomas",
+    "roll_no": 1016,
+    "age": 24,
+    "gender": "Female",
+    "address": "413 Harrison Ave, San Francisco, CA",
+    "contact_info": "555-678-9013"
+  },
+  {
+    "name": "Thomas Taylor",
+    "roll_no": 1017,
+    "age": 21,
+    "gender": "Male",
+    "address": "514 Cleveland St, Indianapolis, IN",
+    "contact_info": "555-789-0124"
+  },
+  {
+    "name": "Sarah Moore",
+    "roll_no": 1018,
+    "age": 20,
+    "gender": "Female",
+    "address": "615 Wilson Ave, Seattle, WA",
+    "contact_info": "555-890-1235"
+  },
+  {
+    "name": "Charles Jackson",
+    "roll_no": 1019,
+    "age": 22,
+    "gender": "Male",
+    "address": "716 Main St, Denver, CO",
+    "contact_info": "555-901-2346"
+  },
+  {
+    "name": "Karen Martin",
+    "roll_no": 1020,
+    "age": 19,
+    "gender": "Female",
+    "address": "817 Oak Ave, Washington, DC",
+    "contact_info": "555-012-3457"
+  },
+  {
+    "name": "Christopher Lee",
+    "roll_no": 1021,
+    "age": 23,
+    "gender": "Male",
+    "address": "918 Pine St, Boston, MA",
+    "contact_info": "555-123-4569"
+  },
+  {
+    "name": "Nancy Perez",
+    "roll_no": 1022,
+    "age": 18,
+    "gender": "Female",
+    "address": "119 Maple Ave, El Paso, TX",
+    "contact_info": "555-234-5680"
+  },
+  {
+    "name": "Daniel Thompson",
+    "roll_no": 1023,
+    "age": 24,
+    "gender": "Male",
+    "address": "220 Cedar St, Nashville, TN",
+    "contact_info": "555-345-6781"
+  },
+  {
+    "name": "Lisa White",
+    "roll_no": 1024,
+    "age": 21,
+    "gender": "Female",
+    "address": "321 Elm St, Detroit, MI",
+    "contact_info": "555-456-7892"
+  },
+  {
+    "name": "Matthew Harris",
+    "roll_no": 1025,
+    "age": 20,
+    "gender": "Male",
+    "address": "422 Washington Ave, Oklahoma City, OK",
+    "contact_info": "555-567-8903"
+  },
+  {
+    "name": "Betty Sanchez",
+    "roll_no": 1026,
+    "age": 22,
+    "gender": "Female",
+    "address": "523 Park Ave, New York, NY",
+    "contact_info": "555-678-9014"
+  },
+  {
+    "name": "Anthony Clark",
+    "roll_no": 1027,
+    "age": 19,
+    "gender": "Male",
+    "address": "624 Lincoln St, Los Angeles, CA",
+    "contact_info": "555-789-0125"
+  },
+  {
+    "name": "Dorothy Ramirez",
+    "roll_no": 1028,
+    "age": 23,
+    "gender": "Female",
+    "address": "725 Jefferson Ave, Chicago, IL",
+    "contact_info": "555-890-1236"
+  },
+  {
+    "name": "Mark Lewis",
+    "roll_no": 1029,
+    "age": 18,
+    "gender": "Male",
+    "address": "826 Madison St, Houston, TX",
+    "contact_info": "555-901-2347"
+  },
+  {
+    "name": "Sandra Robinson",
+    "roll_no": 1030,
+    "age": 24,
+    "gender": "Female",
+    "address": "927 Monroe Ave, Phoenix, AZ",
+    "contact_info": "555-012-3458"
+  },
+  {
+    "name": "Donald Walker",
+    "roll_no": 1031,
+    "age": 21,
+    "gender": "Male",
+    "address": "128 Adams St, Philadelphia, PA",
+    "contact_info": "555-123-4570"
+  },
+  {
+    "name": "Donna Young",
+    "roll_no": 1032,
+    "age": 20,
+    "gender": "Female",
+    "address": "229 Jackson Ave, San Antonio, TX",
+    "contact_info": "555-234-5681"
+  },
+  {
+    "name": "Steven Allen",
+    "roll_no": 1033,
+    "age": 22,
+    "gender": "Male",
+    "address": "330 Franklin St, San Diego, CA",
+    "contact_info": "555-345-6782"
+  },
+  {
+    "name": "Carol King",
+    "roll_no": 1034,
+    "age": 19,
+    "gender": "Female",
+    "address": "431 Harrison Ave, Dallas, TX",
+    "contact_info": "555-456-7893"
+  },
+  {
+    "name": "Paul Wright",
+    "roll_no": 1035,
+    "age": 23,
+    "gender": "Male",
+    "address": "532 Cleveland St, San Jose, CA",
+    "contact_info": "555-567-8904"
+  },
+  {
+    "name": "Ruth Scott",
+    "roll_no": 1036,
+    "age": 18,
+    "gender": "Female",
+    "address": "633 Wilson Ave, Austin, TX",
+    "contact_info": "555-678-9015"
+  },
+  {
+    "name": "Andrew Torres",
+    "roll_no": 1037,
+    "age": 24,
+    "gender": "Male",
+    "address": "734 Main St, Jacksonville, FL",
+    "contact_info": "555-789-0126"
+  },
+  {
+    "name": "Sharon Nguyen",
+    "roll_no": 1038,
+    "age": 21,
+    "gender": "Female",
+    "address": "835 Oak Ave, Fort Worth, TX",
+    "contact_info": "555-890-1237"
+  },
+  {
+    "name": "Kenneth Hill",
+    "roll_no": 1039,
+    "age": 20,
+    "gender": "Male",
+    "address": "936 Pine St, Columbus, OH",
+    "contact_info": "555-901-2348"
+  },
+  {
+    "name": "Michelle Flores",
+    "roll_no": 1040,
+    "age": 22,
+    "gender": "Female",
+    "address": "137 Maple Ave, Charlotte, NC",
+    "contact_info": "555-012-3459"
+  },
+  {
+    "name": "Joshua Green",
+    "roll_no": 1041,
+    "age": 19,
+    "gender": "Male",
+    "address": "238 Cedar St, San Francisco, CA",
+    "contact_info": "555-123-4571"
+  },
+  {
+    "name": "Laura Adams",
+    "roll_no": 1042,
+    "age": 23,
+    "gender": "Female",
+    "address": "339 Elm St, Indianapolis, IN",
+    "contact_info": "555-234-5682"
+  },
+  {
+    "name": "Kevin Nelson",
+    "roll_no": 1043,
+    "age": 18,
+    "gender": "Male",
+    "address": "440 Washington Ave, Seattle, WA",
+    "contact_info": "555-345-6783"
+  },
+  {
+    "name": "Kimberly Baker",
+    "roll_no": 1044,
+    "age": 24,
+    "gender": "Female",
+    "address": "541 Park Ave, Denver, CO",
+    "contact_info": "555-456-7894"
+  },
+  {
+    "name": "Brian Hall",
+    "roll_no": 1045,
+    "age": 21,
+    "gender": "Male",
+    "address": "642 Lincoln St, Washington, DC",
+    "contact_info": "555-567-8905"
+  },
+  {
+    "name": "Deborah Rivera",
+    "roll_no": 1046,
+    "age": 20,
+    "gender": "Female",
+    "address": "743 Jefferson Ave, Boston, MA",
+    "contact_info": "555-678-9016"
+  },
+  {
+    "name": "George Campbell",
+    "roll_no": 1047,
+    "age": 22,
+    "gender": "Male",
+    "address": "844 Madison St, El Paso, TX",
+    "contact_info": "555-789-0127"
+  },
+  {
+    "name": "Lisa Mitchell",
+    "roll_no": 1048,
+    "age": 19,
+    "gender": "Female",
+    "address": "945 Monroe Ave, Nashville, TN",
+    "contact_info": "555-890-1238"
+  },
+  {
+    "name": "Edward Carter",
+    "roll_no": 1049,
+    "age": 23,
+    "gender": "Male",
+    "address": "146 Adams St, Detroit, MI",
+    "contact_info": "555-901-2349"
+  },
+  {
+    "name": "Nancy Roberts",
+    "roll_no": 1050,
+    "age": 18,
+    "gender": "Female",
+    "address": "247 Jackson Ave, Oklahoma City, OK",
+    "contact_info": "555-012-3460"
+  },
+  {
+    "name": "Ronald Gomez",
+    "roll_no": 1051,
+    "age": 24,
+    "gender": "Male",
+    "address": "348 Franklin St, New York, NY",
+    "contact_info": "555-123-4572"
+  },
+  {
+    "name": "Karen Phillips",
+    "roll_no": 1052,
+    "age": 21,
+    "gender": "Female",
+    "address": "449 Harrison Ave, Los Angeles, CA",
+    "contact_info": "555-234-5683"
+  },
+  {
+    "name": "Timothy Evans",
+    "roll_no": 1053,
+    "age": 20,
+    "gender": "Male",
+    "address": "550 Cleveland St, Chicago, IL",
+    "contact_info": "555-345-6784"
+  },
+  {
+    "name": "Dorothy Turner",
+    "roll_no": 1054,
+    "age": 22,
+    "gender": "Female",
+    "address": "651 Wilson Ave, Houston, TX",
+    "contact_info": "555-456-7895"
+  },
+  {
+    "name": "Jason Diaz",
+    "roll_no": 1055,
+    "age": 19,
+    "gender": "Male",
+    "address": "752 Main St, Phoenix, AZ",
+    "contact_info": "555-567-8906"
+  },
+  {
+    "name": "Lisa Parker",
+    "roll_no": 1056,
+    "age": 23,
+    "gender": "Female",
+    "address": "853 Oak Ave, Philadelphia, PA",
+    "contact_info": "555-678-9017"
+  },
+  {
+    "name": "Kevin Brown",
+    "roll_no": 1057,
+    "age": 18,
+    "gender": "Male",
+    "address": "954 Pine St, San Antonio, TX",
+    "contact_info": "555-789-0128"
+  },
+  {
+    "name": "Nancy Wilson",
+    "roll_no": 1058,
+    "age": 24,
+    "gender": "Female",
+    "address": "155 Maple Ave, San Diego, CA",
+    "contact_info": "555-890-1239"
+  },
+  {
+    "name": "Brian Smith",
+    "roll_no": 1059,
+    "age": 21,
+    "gender": "Male",
+    "address": "256 Cedar St, Dallas, TX",
+    "contact_info": "555-901-2350"
+  },
+  {
+    "name": "Karen Johnson",
+    "roll_no": 1060,
+    "age": 20,
+    "gender": "Female",
+    "address": "357 Elm St, San Jose, CA",
+    "contact_info": "555-012-3461"
+  },
+  {
+    "name": "George Williams",
+    "roll_no": 1061,
+    "age": 22,
+    "gender": "Male",
+    "address": "458 Washington Ave, Austin, TX",
+    "contact_info": "555-123-4573"
+  },
+  {
+    "name": "Edward Jones",
+    "roll_no": 1062,
+    "age": 19,
+    "gender": "Male",
+    "address": "559 Park Ave, Jacksonville, FL",
+    "contact_info": "555-234-5684"
+  },
+  {
+    "name": "Ronald Garcia",
+    "roll_no": 1063,
+    "age": 23,
+    "gender": "Male",
+    "address": "660 Lincoln St, Fort Worth, TX",
+    "contact_info": "555-345-6785"
+  },
+  {
+    "name": "Timothy Miller",
+    "roll_no": 1064,
+    "age": 18,
+    "gender": "Male",
+    "address": "761 Jefferson Ave, Columbus, OH",
+    "contact_info": "555-456-7896"
+  },
+  {
+    "name": "Jason Davis",
+    "roll_no": 1065,
+    "age": 24,
+    "gender": "Male",
+    "address": "862 Madison St, Charlotte, NC",
+    "contact_info": "555-567-8907"
+  },
+  {
+    "name": "Kevin Rodriguez",
+    "roll_no": 1066,
+    "age": 21,
+    "gender": "Male",
+    "address": "963 Monroe Ave, San Francisco, CA",
+    "contact_info": "555-678-9018"
+  },
+  {
+    "name": "Brian Martinez",
+    "roll_no": 1067,
+    "age": 20,
+    "gender": "Male",
+    "address": "164 Adams St, Indianapolis, IN",
+    "contact_info": "555-789-0129"
+  },
+  {
+    "name": "George Hernandez",
+    "roll_no": 1068,
+    "age": 22,
+    "gender": "Male",
+    "address": "265 Jackson Ave, Seattle, WA",
+    "contact_info": "555-890-1240"
+  },
+  {
+    "name": "Edward Lopez",
+    "roll_no": 1069,
+    "age": 19,
+    "gender": "Male",
+    "address": "366 Franklin St, Denver, CO",
+    "contact_info": "555-901-2351"
+  },
+  {
+    "name": "Ronald Gonzalez",
+    "roll_no": 1070,
+    "age": 23,
+    "gender": "Male",
+    "address": "467 Harrison Ave, Washington, DC",
+    "contact_info": "555-012-3462"
+  },
+  {
+    "name": "Timothy Anderson",
+    "roll_no": 1071,
+    "age": 18,
+    "gender": "Male",
+    "address": "568 Cleveland St, Boston, MA",
+    "contact_info": "555-123-4574"
+  },
+  {
+    "name": "Jason Thomas",
+    "roll_no": 1072,
+    "age": 24,
+    "gender": "Male",
+    "address": "669 Wilson Ave, El Paso, TX",
+    "contact_info": "555-234-5685"
+  },
+  {
+    "name": "Kevin Taylor",
+    "roll_no": 1073,
+    "age": 21,
+    "gender": "Male",
+    "address": "770 Main St, Nashville, TN",
+    "contact_info": "555-345-6786"
+  },
+  {
+    "name": "Brian Moore",
+    "roll_no": 1074,
+    "age": 20,
+    "gender": "Male",
+    "address": "871 Oak Ave, Detroit, MI",
+    "contact_info": "555-456-7897"
+  },
+  {
+    "name": "George Jackson",
+    "roll_no": 1075,
+    "age": 22,
+    "gender": "Male",
+    "address": "972 Pine St, Oklahoma City, OK",
+    "contact_info": "555-567-8908"
+  },
+  {
+    "name": "Sarah Wilson",
+    "roll_no": 1076,
+    "age": 19,
+    "gender": "Female",
+    "address": "173 Maple Ave, New York, NY",
+    "contact_info": "555-678-9019"
+  },
+  {
+    "name": "Jessica Anderson",
+    "roll_no": 1077,
+    "age": 23,
+    "gender": "Female",
+    "address": "274 Cedar St, Los Angeles, CA",
+    "contact_info": "555-789-0130"
+  },
+  {
+    "name": "Linda Thomas",
+    "roll_no": 1078,
+    "age": 18,
+    "gender": "Female",
+    "address": "375 Elm St, Chicago, IL",
+    "contact_info": "555-890-1241"
+  },
+  {
+    "name": "Patricia Taylor",
+    "roll_no": 1079,
+    "age": 24,
+    "gender": "Female",
+    "address": "476 Washington Ave, Houston, TX",
+    "contact_info": "555-901-2352"
+  },
+  {
+    "name": "Mary Moore",
+    "roll_no": 1080,
+    "age": 21,
+    "gender": "Female",
+    "address": "577 Park Ave, Phoenix, AZ",
+    "contact_info": "555-012-3463"
+  },
+  {
+    "name": "Jennifer Jackson",
+    "roll_no": 1081,
+    "age": 20,
+    "gender": "Female",
+    "address": "678 Lincoln St, Philadelphia, PA",
+    "contact_info": "555-123-4575"
+  },
+  {
+    "name": "Elizabeth Martin",
+    "roll_no": 1082,
+    "age": 22,
+    "gender": "Female",
+    "address": "779 Jefferson Ave, San Antonio, TX",
+    "contact_info": "555-234-5686"
+  },
+  {
+    "name": "Barbara Lee",
+    "roll_no": 1083,
+    "age": 19,
+    "gender": "Female",
+    "address": "880 Madison St, San Diego, CA",
+    "contact_info": "555-345-6787"
+  },
+  {
+    "name": "Susan Perez",
+    "roll_no": 1084,
+    "age": 23,
+    "gender": "Female",
+    "address": "981 Monroe Ave, Dallas, TX",
+    "contact_info": "555-456-7898"
+  },
+  {
+    "name": "Dorothy Thompson",
+    "roll_no": 1085,
+    "age": 18,
+    "gender": "Female",
+    "address": "182 Adams St, San Jose, CA",
+    "contact_info": "555-567-8909"
+  },
+  {
+    "name": "Lisa White",
+    "roll_no": 1086,
+    "age": 24,
+    "gender": "Female",
+    "address": "283 Jackson Ave, Austin, TX",
+    "contact_info": "555-678-9020"
+  },
+  {
+    "name": "Nancy Harris",
+    "roll_no": 1087,
+    "age": 21,
+    "gender": "Female",
+    "address": "384 Franklin St, Jacksonville, FL",
+    "contact_info": "555-789-0131"
+  },
+  {
+    "name": "Karen Sanchez",
+    "roll_no": 1088,
+    "age": 20,
+    "gender": "Female",
+    "address": "485 Harrison Ave, Fort Worth, TX",
+    "contact_info": "555-890-1242"
+  },
+  {
+    "name": "Betty Clark",
+    "roll_no": 1089,
+    "age": 22,
+    "gender": "Female",
+    "address": "586 Cleveland St, Columbus, OH",
+    "contact_info": "555-901-2353"
+  },
+  {
+    "name": "Helen Ramirez",
+    "roll_no": 1090,
+    "age": 19,
+    "gender": "Female",
+    "address": "687 Wilson Ave, Charlotte, NC",
+    "contact_info": "555-012-3464"
+  },
+  {
+    "name": "Sandra Lewis",
+    "roll_no": 1091,
+    "age": 23,
+    "gender": "Female",
+    "address": "788 Main St, San Francisco, CA",
+    "contact_info": "555-123-4576"
+  },
+  {
+    "name": "Donna Robinson",
+    "roll_no": 1092,
+    "age": 18,
+    "gender": "Female",
+    "address": "889 Oak Ave, Indianapolis, IN",
+    "contact_info": "555-234-5687"
+  },
+  {
+    "name": "Carol Walker",
+    "roll_no": 1093,
+    "age": 24,
+    "gender": "Female",
+    "address": "990 Pine St, Seattle, WA",
+    "contact_info": "555-345-6788"
+  },
+  {
+    "name": "Ruth Young",
+    "roll_no": 1094,
+    "age": 21,
+    "gender": "Female",
+    "address": "191 Maple Ave, Denver, CO",
+    "contact_info": "555-456-7899"
+  },
+  {
+    "name": "Sharon Allen",
+    "roll_no": 1095,
+    "age": 20,
+    "gender": "Female",
+    "address": "292 Cedar St, Washington, DC",
+    "contact_info": "555-567-8910"
+  },
+  {
+    "name": "Michelle King",
+    "roll_no": 1096,
+    "age": 22,
+    "gender": "Female",
+    "address": "393 Elm St, Boston, MA",
+    "contact_info": "555-678-9021"
+  },
+  {
+    "name": "Laura Wright",
+    "roll_no": 1097,
+    "age": 19,
+    "gender": "Female",
+    "address": "494 Washington Ave, El Paso, TX",
+    "contact_info": "555-789-0132"
+  },
+  {
+    "name": "Kimberly Scott",
+    "roll_no": 1098,
+    "age": 23,
+    "gender": "Female",
+    "address": "595 Park Ave, Nashville, TN",
+    "contact_info": "555-890-1243"
+  },
+  {
+    "name": "Deborah Torres",
+    "roll_no": 1099,
+    "age": 18,
+    "gender": "Female",
+    "address": "696 Lincoln St, Detroit, MI",
+    "contact_info": "555-901-2354"
+  },
+  {
+    "name": "Amy Nguyen",
+    "roll_no": 1100,
+    "age": 24,
+    "gender": "Female",
+    "address": "797 Jefferson Ave, Oklahoma City, OK",
+    "contact_info": "555-012-3465"
+  }
+]

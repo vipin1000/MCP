@@ -141,13 +141,6 @@ Author: Vipin Ruhal
 Description: Combines SQLite demo tools with advanced file operations,
 directory management, code analysis, data processing, and database management.
 """
-#!/usr/bin/env python3
-"""
-Unified Advanced MCP Server - main.py
-Author: Vipin Ruhal
-Description: Combines SQLite demo tools with advanced file operations,
-directory management, code analysis, data processing, and database management.
-"""
 
 from mcp.server.fastmcp import FastMCP
 import os
@@ -185,17 +178,30 @@ def init_db():
     conn.commit()
     return conn, cursor
 
+# @mcp.tool()
+# def add_data(query: str) -> bool:
+#     """Add new data to the demo.db people table."""
+#     conn, cursor = init_db()
+#     try:
+#         cursor.execute(query)
+#         conn.commit()
+#         return True
+#     except sqlite3.Error as e:
+#         print(f"Error adding data: {e}")
+#         return False
+#     finally:
+#         conn.close()
 @mcp.tool()
-def add_data(query: str) -> bool:
+def add_data(query: str) -> dict:
     """Add new data to the demo.db people table."""
     conn, cursor = init_db()
     try:
         cursor.execute(query)
         conn.commit()
-        return True
+        return {"success": True}
     except sqlite3.Error as e:
         print(f"Error adding data: {e}")
-        return False
+        return {"success": False, "error": str(e)}
     finally:
         conn.close()
 
