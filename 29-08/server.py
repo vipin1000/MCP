@@ -626,36 +626,282 @@ directory management, code analysis, data processing, and database management.
 
 from mcp.server.fastmcp import FastMCP
 import os
-from typing import Dict, Any
-from PyPDF2 import PdfReader  # make sure PyPDF2 is installed
+import pdfplumber
+import json
+import argparse
+import requests
+import duckduckgo_search
+from bs4 import BeautifulSoup
 
-# Create MCP server
-mcp = FastMCP("PDF Reader MCP Server")
+
+
+mcp = FastMCP("PDFSummarizer")
 
 _base_dir = os.path.dirname(__file__)
+@mcp.tool()
+def read_pdf(file_path: str,extract_metadata: bool = False) -> dict:
+    """
+    Read and return text from PDF file with optional metadata.
+    
+    Args:
+        extract_metadata: Whether to include PDF metadata (default: False)
+    """
+   
+        
+    result = []
+    abs_path = os.path.join(_base_dir, file_path)    
+    with pdfplumber.open(abs_path) as pdf:
+        if extract_metadata and pdf.metadata:
+                result.append(f"PDF Metadata: {json.dumps(pdf.metadata, indent=2, default=str)}\n")
+            
+        result.append(f"Total pages: {len(pdf.pages)}\n")
+            
+        text_content = ""
+        for i, page in enumerate(pdf.pages, 1):
+                page_text = page.extract_text() or ""
+                if page_text.strip():
+                    text_content += f"\n--- Page {i} ---\n{page_text}\n"        
+        if text_content.strip():
+                result.append(text_content)
+        else:
+                result.append("No readable text found in PDF")
+        return "".join(result)
+    return f"Error reading PDF: {str(e)}"
+
+
 
 @mcp.tool()
-def read_pdf(file_path: str) -> Dict[str, Any]:
+def scrape_url(url: str) -> str:
     """
-    Read text from a PDF file and return structured content.
+    Fetch and return cleaned text content from a webpage.
     """
-    abs_path = file_path if os.path.isabs(file_path) else os.path.join(_base_dir, file_path)
-    if not os.path.exists(abs_path):
-        return {"error": f"File not found: {abs_path}"}
-    
     try:
-        reader = PdfReader(abs_path)
-        text_pages = [page.extract_text() or "" for page in reader.pages]
-        return {
-            "file_path": abs_path,
-            "page_count": len(reader.pages),
-            "content_preview": text_pages[:3],  # first 3 pages
-            "all_text": "\n".join(text_pages)
-        }
+        resp = requests.get(url, timeout=10)
+        resp.raise_for_status()
+
+        soup = BeautifulSoup(resp.text, "html.parser")
+
+        # Remove scripts and styles
+        for s in soup(["script", "style", "noscript"]):
+            s.extract()
+
+        text = soup.get_text(separator="\n")
+        lines = [line.strip() for line in text.splitlines() if line.strip()]
+        return "\n".join(lines[:2000])  # limit size for LLM
     except Exception as e:
-        return {"error": f"Error reading PDF: {str(e)}"}
+        return f"Error scraping {url}: {str(e)}"
+
+
+# ----------------------------
+# Web Search Tool
+# ----------------------------
+# @mcp.tool()
+# def web_search(query: str, max_results: int = 5) -> str:
+#     """
+#     Perform a DuckDuckGo web search and return top results.
+#     """
+#     try:
+#         results = duckduckgo_search.DDGS().text(query, max_results=max_results)
+#         output = []
+#         for i, r in enumerate(results, 1):
+#             output.append(f"{i}. {r['title']} - {r['href']}\n{r['body']}\n")
+#         return "\n".join(output)
+#     except Exception as e:
+#         return f"Error performing web search: {str(e)}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from urllib.parse import urljoin, urlparse
+import chromadb
+from sentence_transformers import SentenceTransformer
+
+
+
+# Vector DB + embeddings
+chroma_client = chromadb.PersistentClient(path="web_cache")
+collection = chroma_client.get_or_create_collection("website_pages")
+embedder = SentenceTransformer("all-MiniLM-L6-v2")
+
+
+@mcp.tool()
+def crawl_site(base_url: str, max_pages: int = 20, exclude_urls: list[str] = None) -> str:
+    """
+    Crawl a website starting from base_url and cache its text content in ChromaDB.
+    
+    Args:
+        base_url (str): Homepage URL of the website to crawl.
+        max_pages (int): Max number of pages to crawl (default: 20).
+        exclude_urls (list[str]): List of substrings/URLs to skip.
+    
+    Returns:
+        str: Number of pages successfully crawled and indexed.
+    """
+    if exclude_urls is None:
+        exclude_urls = []
+
+    visited, to_visit = set(), [base_url]
+    parsed_base = urlparse(base_url).netloc
+
+    while to_visit and len(visited) < max_pages:
+        url = to_visit.pop(0)
+
+        # Skip excluded
+        if any(excl in url for excl in exclude_urls):
+            continue
+
+        if url in visited:
+            continue
+        try:
+            resp = requests.get(url, timeout=10)
+            resp.raise_for_status()
+            soup = BeautifulSoup(resp.text, "html.parser")
+
+            # Clean up HTML
+            for s in soup(["script", "style", "noscript"]):
+                s.extract()
+
+            text = soup.get_text(separator="\n")
+            lines = [line.strip() for line in text.splitlines() if line.strip()]
+            content = "\n".join(lines)
+
+            # Save into Chroma
+            embedding = embedder.encode([content])[0]
+            collection.add(
+                documents=[content],
+                embeddings=[embedding],
+                ids=[url]
+            )
+
+            visited.add(url)
+
+            # Collect new internal links
+            for link in soup.find_all("a", href=True):
+                full_url = urljoin(base_url, link["href"])
+                if urlparse(full_url).netloc == parsed_base and full_url not in visited:
+                    if not any(excl in full_url for excl in exclude_urls):
+                        to_visit.append(full_url)
+
+        except Exception as e:
+            print(f"⚠️ Failed {url}: {e}")
+
+    return f"Crawled and indexed {len(visited)} pages from {base_url}"
+
+
+@mcp.tool()
+def ask_site(question: str, top_k: int = 3) -> str:
+    """
+    Query across all crawled pages of the website.
+    
+    Args:
+        question (str): The natural language question to ask.
+        top_k (int): Number of top results to return (default: 3).
+    
+    Returns:
+        str: Relevant content snippets from the website.
+    """
+    try:
+        embedding = embedder.encode([question])[0]
+        results = collection.query(
+            query_embeddings=[embedding],
+            n_results=top_k
+        )
+        docs = results["documents"]
+        urls = results["ids"]
+
+        # Format nicely
+        output = []
+        for i, (doc, url) in enumerate(zip(docs[0], urls[0])):
+            snippet = doc[:500].replace("\n", " ")  # limit size
+            output.append(f"[Result {i+1}] {url}\n{snippet}...\n")
+
+        return "\n".join(output) if output else "No relevant content found."
+    except Exception as e:
+        return f"Error querying site: {str(e)}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
-    print("🚀 PDF Reader MCP Server started.")
-    mcp.run("sse")  # or "stdio"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--server_type", type=str, default="sse", choices=["sse", "stdio"])
+    args = parser.parse_args()
+    mcp.run(args.server_type)
+

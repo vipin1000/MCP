@@ -396,6 +396,42 @@ def find_in_files(search_term: str, directory: str = ".", file_extensions: List[
 # DATA PROCESSING
 # =============================================
 
+import pdfplumber
+
+@mcp.tool()
+def read_pdf(file_path: str,extract_metadata: bool = False) -> dict:
+    """
+    Read and return text from PDF file with optional metadata.
+    
+    Args:
+        extract_metadata: Whether to include PDF metadata (default: False)
+    """
+   
+        
+    result = []
+    abs_path = os.path.join(_base_dir, file_path)    
+    with pdfplumber.open(abs_path) as pdf:
+        if extract_metadata and pdf.metadata:
+                result.append(f"PDF Metadata: {json.dumps(pdf.metadata, indent=2, default=str)}\n")
+            
+        result.append(f"Total pages: {len(pdf.pages)}\n")
+            
+        text_content = ""
+        for i, page in enumerate(pdf.pages, 1):
+                page_text = page.extract_text() or ""
+                if page_text.strip():
+                    text_content += f"\n--- Page {i} ---\n{page_text}\n"        
+        if text_content.strip():
+                result.append(text_content)
+        else:
+                result.append("No readable text found in PDF")
+        return "".join(result)
+    return f"Error reading PDF: {str(e)}"
+
+
+
+
+
 @mcp.tool()
 def read_csv_file(file_path: str, delimiter: str = ",") -> Dict[str, Any]:
     """Read and parse CSV files with detailed information."""
